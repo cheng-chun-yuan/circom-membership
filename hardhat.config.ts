@@ -23,6 +23,12 @@ module.exports = {
         // Generate PLONK
         protocol: "plonk",
       },
+      {
+        name: "pow",
+      },
+      {
+        name: "age",
+      }
     ],
   },
 };
