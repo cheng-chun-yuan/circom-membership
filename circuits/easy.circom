@@ -9,6 +9,13 @@ template Main () {
   signal input b;  
   signal output c;  
 
+  signal inva;
+  signal invb;
+
+  inva <-- a != 1;
+  inva === 1;
+  invb <-- b != 1;
+  invb === 1;
   c <== a * b;
 }
 
