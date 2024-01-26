@@ -5,13 +5,18 @@ describe("easy circuit", () => {
   let circuit:any;
 
   const sampleInput = {
-    a: '3',
-    b: '11',
+    a: 3,
+    b: [3,4,5,6,7]
+  }
+
+  const sampleFalseInput = {
+    a: 2,
+    b: [3,4,5,6,7]
   }
 
   const sampleWrongInput = {
-    a: '1',
-    b: '33',
+    a: 1,
+    b: 2,
   }
   const sanityCheck = true;
 
@@ -33,21 +38,15 @@ describe("easy circuit", () => {
     await circuit.checkConstraints(witness);
   });
 
-  it("has expected witness values", async () => {
-    const witness = await circuit.calculateLabeledWitness(
-      sampleInput,
-      sanityCheck
-    );
-    assert.notPropertyVal(witness, "main.a", 1);
-    assert.notPropertyVal(witness, "main.b", 1);
-    assert.propertyVal(witness, "main.a", sampleInput.a);
-    assert.propertyVal(witness, "main.b", sampleInput.b);
-    assert.propertyVal(witness, "main.c", "33");
+  it("has the correct output", async () => {
+    const expected = { c: 1 };
+    const witness = await circuit.calculateWitness(sampleInput, sanityCheck);
+    await circuit.assertOut(witness, expected);
   });
 
-  it("has the correct output", async () => {
-    const expected = { c: 33 };
-    const witness = await circuit.calculateWitness(sampleInput, sanityCheck);
+  it("not the member", async () => {
+    const expected = { c: 0 };
+    const witness = await circuit.calculateWitness(sampleFalseInput, sanityCheck);
     await circuit.assertOut(witness, expected);
   });
 });
